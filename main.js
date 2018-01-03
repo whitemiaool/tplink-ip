@@ -6,10 +6,10 @@
 var request = require('request');
 var Promise = require("bluebird");
 var urllib = require('urllib');
+let AliCloudClient = require("aliyun-apisign");
 
 
-
-
+var ipReg = /((25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))$/g;
 var tokenUrl = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wwd1f16e2324e8c7e4&corpsecret=';
 var tongxunlu = 'bmrbuucYFoWS0uC3SAEkfCr_WfTZPKpKpFjQT7rTR_Y';
 var paiban = 'Q-1ogqb8ZI3JvrL8UhelBSmKAh2IeiH0kHM89mzeBl4'; 
@@ -27,6 +27,37 @@ let msg = {
 }
 
 var oneMin = 60*1000;
+
+
+// let Req = require("request");
+// let request = new Req();
+
+let aliClient = new AliCloudClient({
+    AccessKeyId: "LTAIvqcHPYvnmnTA",
+    AccessKeySecret: "OQQbnzlgoIW7mUZQ1kKgGCXk6qnY2Q",
+    serverUrl: "http://alidns.aliyuncs.com"
+});
+
+let domainNameValue = "www";
+let recordId = 3704750668399616,       //记录ID
+
+
+
+
+function upDateRecords(newIp) {
+    return aliClient.get("/", {
+        Action: "UpdateDomainRecord",
+        RecordId: recordId,
+        RR: domainNameValue,
+        Type: "A",
+        Value: newIp,
+        ttl:600
+    }).then(function (data) {
+        console.log(new Date() + newIp + " 修改成功");
+    }).catch(function (err) {
+        console.log(err)
+    })
+}
 
 var getToken = function(index) {
     let path = index?tongxunlu:paiban;
@@ -102,18 +133,26 @@ function capture() {
  
  
     ls.stdout.on('data', function (data) {
-        console.log(count,data);
-        let res = data.replace(/[\r\n]*/g,'');
-        if(ip == res) {
-
-        } else {
-            ip = res;
-            var mg = {
-                "text" : {
-                    "content" : ip
-                },
+        try{
+            console.log(count,data);
+            let res = data.replace(/[\r\n]*/g,'');
+            if(ipReg.test(res)) {
+                if(ip == res) {
+        
+                } else {
+                    ip = res.match(ipReg)[0];
+                    var mg = {
+                        "text" : {
+                            "content" : ip
+                        },
+                    }
+                    console.log(ip)
+                    upDateRecords(ip);
+                    sendToUser(mg);
+                }
             }
-            sendToUser(mg)
+        }catch(e) {
+            console.log(e)
         }
     });
  
@@ -132,6 +171,12 @@ function capture() {
  
 }
 
+process.on('uncaughtException', function (err) {
+    console.error('An uncaught error occurred!');
+    console.error(err.stack);
+});
+
+
 setInterval(()=>{
     capture();
-},5000)
+},15*60*1000)

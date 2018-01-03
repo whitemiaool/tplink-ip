@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "aliyun-apisign": "^1.0.2",
     "bluebird": "^3.5.1",
     "request": "^2.83.0",
     "urllib": "^2.25.3",
