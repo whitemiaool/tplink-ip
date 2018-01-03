@@ -15,6 +15,7 @@ var tongxunlu = 'bmrbuucYFoWS0uC3SAEkfCr_WfTZPKpKpFjQT7rTR_Y';
 var paiban = 'Q-1ogqb8ZI3JvrL8UhelBSmKAh2IeiH0kHM89mzeBl4'; 
 var getMemberUrl = 'https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?access_token=';
 var sendMsgUrl = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=';
+
 var oneHour = 3600000;
 let msg = {
     "touser":'',
@@ -180,3 +181,4 @@ process.on('uncaughtException', function (err) {
 setInterval(()=>{
     capture();
 },15*60*1000)
+
