@@ -9,12 +9,6 @@ var urllib = require('urllib');
 
 
 
-
-var tokenUrl = 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wwd1f16e2324e8c7e4&corpsecret=';
-var tongxunlu = 'bmrbuucYFoWS0uC3SAEkfCr_WfTZPKpKpFjQT7rTR_Y';
-var paiban = 'Q-1ogqb8ZI3JvrL8UhelBSmKAh2IeiH0kHM89mzeBl4'; 
-var getMemberUrl = 'https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?access_token=';
-var sendMsgUrl = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=';
 var oneHour = 3600000;
 let msg = {
     "touser":'',
