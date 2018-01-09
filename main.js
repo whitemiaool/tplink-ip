@@ -39,24 +39,25 @@ let aliClient = new AliCloudClient({
     serverUrl: "http://alidns.aliyuncs.com"
 });
 
-let domainNameValue = "www";
-let recordId = 3711992705766400; //记录ID
+let recordId = [{id:3711992705766400,rr:'www'},{id:3712461278512128,rr:'blog'}]; //记录ID
 
 
 
 
 function upDateRecords(newIp) {
-    return aliClient.get("/", {
-        Action: "UpdateDomainRecord",
-        RecordId: recordId,
-        RR: domainNameValue,
-        Type: "A",
-        Value: newIp,
-        ttl: 600
-    }).then(function (data) {
-        console.log(new Date() + newIp + " 修改成功");
-    }).catch(function (err) {
-        console.log(err)
+    recordId.forEach((v,i)=>{
+        aliClient.get("/", {
+            Action: "UpdateDomainRecord",
+            RecordId: v.id,
+            RR: v.rr,
+            Type: "A",
+            Value: newIp,
+            ttl: 600
+        }).then(function (data) {
+            console.log(new Date() + newIp + " 修改成功");
+        }).catch(function (err) {
+            console.log(err)
+        })
     })
 }
 
@@ -131,10 +132,13 @@ var startTime = new Date().getTime();
 var lastHour;
 
 function capture() {
+    console.log('data1')
+    
     var exec = require('child_process').exec,
         ls = exec('phantomjs app.js');
     ls.stdout.on('data', function (data) {
         try {
+            console.log('data')
             let res = data.replace(/[\r\n]*/g, '');
             if (ipReg.test(res)) {
                 res = res.match(ipReg)[0];
@@ -179,4 +183,4 @@ process.on('uncaughtException', function (err) {
 capture();
 setInterval(() => {
     capture();
-}, 15 * 60 * 1000)
+}, 10 * 60 * 1000)
