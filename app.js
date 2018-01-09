@@ -11,8 +11,6 @@ page.open('http://192.168.1.1', function (status) {
     if(status != 'success') {
         console.log('fail')
     } else {
-        console.log('fail1')
-        
         var str = page.evaluate(function() {
             return document.getElementsByName('mainFrame')[0].contentDocument.documentElement.innerHTML;
         });

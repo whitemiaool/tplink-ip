@@ -6,6 +6,7 @@
 var request = require('request');
 var Promise = require("bluebird");
 var urllib = require('urllib');
+var moment = require('moment')
 let AliCloudClient = require("aliyun-apisign");
 
 
@@ -130,10 +131,8 @@ var ip = '';
 console.log('主进程开启');
 var startTime = new Date().getTime();
 var lastHour;
-
+var timer;
 function capture() {
-    console.log('data1')
-    
     var exec = require('child_process').exec,
         ls = exec('phantomjs app.js');
     ls.stdout.on('data', function (data) {
@@ -154,11 +153,16 @@ function capture() {
                     sendToUser(mg);
                 }
             } else {
-                capture();
+                clearTimeout(timer);
+                timer = setTimeout(()=>{
+                    capture();
+                },10*1000)
             }
         } catch (e) {
-            capture();
-            console.log(e)
+            clearTimeout(timer);
+            timer = setTimeout(()=>{
+                capture();
+            },10*1000)
         }
     });
 
