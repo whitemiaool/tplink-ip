@@ -40,7 +40,7 @@ let aliClient = new AliCloudClient({
     serverUrl: "http://alidns.aliyuncs.com"
 });
 
-let recordId = [{id:3711992705766400,rr:'@'},{id:3712461278512128,rr:'blog'},{id:3713875673617408,rr:'share'}]; //记录ID
+let recordId = [{id:3711992705766400,rr:'@'},{id:3714651824576512,rr:'www'},{id:3712461278512128,rr:'blog'},{id:3713875673617408,rr:'share'}]; //记录ID
 
 
 
