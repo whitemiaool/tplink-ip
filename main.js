@@ -61,6 +61,7 @@ function upDateRecords(newIp) {
         })
     })
 }
+upDateRecords('121.49.88.149')
 
 var getToken = function (index) {
     let path = index ? tongxunlu : paiban;
@@ -141,7 +142,9 @@ function capture() {
             let res = data.replace(/[\r\n]*/g, '');
             if (ipReg.test(res)) {
                 res = res.match(ipReg)[0];
-                if (ip == res && new Date().getHours() == lastHour) {} else {
+                if (ip == res && new Date().getHours() == lastHour) {
+                    
+                } else {
                     lastHour = new Date().getHours();
                     ip == res ? '' : upDateRecords(res);
                     ip = res.match(ipReg)[0];
@@ -184,7 +187,7 @@ process.on('uncaughtException', function (err) {
     console.error(err.stack);
 });
 
-capture();
-setInterval(() => {
-    capture();
-}, 10 * 60 * 1000)
+// capture();
+// setInterval(() => {
+//     capture();
+// }, 10 * 60 * 1000)
