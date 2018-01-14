@@ -152,7 +152,6 @@ function capture() {
                 lastHour = new Date().getHours();
                 ip == res ? '' : upDateRecords(res);
                 ip = res;
-                console.log(ip)
                 var mg = {
                     "text": {
                         "content": `Your Private Server IP:${ip}`
@@ -172,6 +171,6 @@ process.on('uncaughtException', function (err) {
 });
 
 capture();
-// setInterval(() => {
-//     capture();
-// }, 10 * 60 * 1000)
+setInterval(() => {
+    capture();
+}, 10 * 60 * 1000)
