@@ -61,7 +61,6 @@ function upDateRecords(newIp) {
         })
     })
 }
-upDateRecords('121.49.88.149')
 
 var getToken = function (index) {
     let path = index ? tongxunlu : paiban;
